@@ -8,28 +8,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class ControlBox extends NonGreedyPanel {
     private boolean isSelected=true;
 	NameLabel nameLabel=new NameLabel();
 	String command="";
-	StatusLabel statusLabel=new StatusLabel();
+	//StatusLabel statusLabel=new StatusLabel();
 	ControlBoxes controlBoxes;
 	ControlBox ref=this;
 	
 	public ControlBox(ControlBoxes controlBoxes) {
 		super();
 		this.controlBoxes=controlBoxes;
-		
+		setValues();
 		LayoutManager l= new BoxLayout(this,BoxLayout.Y_AXIS);
 		this.setLayout(l);
 		this.add(nameLabel);
 		this.add(new ExecuteButton());
 		this.add(new SelectButton());
-		this.add(statusLabel);
+		this.add(new EditButton());
 	}
+	
+	
 	
 	public boolean getIsSelected(){
 		return isSelected;
@@ -37,20 +42,30 @@ public class ControlBox extends NonGreedyPanel {
 	
 	public void select(boolean selected){
 		isSelected=selected;
-		statusLabel.update(isSelected);
+		//statusLabel.update(isSelected);
 		if(selected){
-			if(controlBoxes.lastSelected!=null){
+			if(controlBoxes.lastSelected!=null && controlBoxes.lastSelected!=ref){
 				controlBoxes.lastSelected.select(false);
 			}
 			controlBoxes.lastSelected=this;
-			App.mc.refresh();
+			App.app.refresh();
 		}	
+	}
+	
+	public void setValues(){
+		JTextField name=new JTextField(nameLabel.getText());
+		JTextField command=new JTextField();
+		JComponent[] components={new JLabel("Name:"),name,new JLabel("Command"),command}; 
+		JOptionPane.showConfirmDialog(App.app.mainWindow, components);
+		nameLabel.setText(name.getText());
+		this.command=command.getText();
 	}
 	
 	class NameLabel extends JLabel {
 		public NameLabel(){
-			super("|");
-			this.setPreferredSize(new Dimension(0,this.getPreferredSize().height));
+			super("");
+			this.setMaximumSize(new Dimension(1000,40));
+			this.setPreferredSize(new Dimension(0,25));
 		}
 	}
 	
@@ -60,20 +75,21 @@ public class ControlBox extends NonGreedyPanel {
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
+			if(command==""){
+				return;
+			}
 			try {
-				Process process=Runtime.getRuntime().exec("systemctl");
+				Process process=Runtime.getRuntime().exec(command);
 				process.waitFor();
 				BufferedReader r=new BufferedReader(new InputStreamReader(process.getInputStream()));
 				String line;
 				// TODO! Make this asynchronous
 				while((line=r.readLine())!=null){
-					System.out.println(line);
+					App.app.outputArea.append(line+"\n");
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -89,14 +105,13 @@ public class ControlBox extends NonGreedyPanel {
 		}
 	}
 	
-	class StatusLabel extends JLabel {
-		public StatusLabel(){
-			super("|");
-			this.setPreferredSize(new Dimension(0,this.getPreferredSize().height));
+	class EditButton extends StretchibleButton {
+		public EditButton(){
+			super("Edit");
 		}
 		
-		public void update(boolean isSelected){
-			this.setText(isSelected?"||||||||||||||||||||||||||||||||||||||||||||||||":"");
+		public void actionPerformed(ActionEvent arg0) {
+			setValues();
 		}
 	}
 }

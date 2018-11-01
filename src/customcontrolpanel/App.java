@@ -1,18 +1,21 @@
 package customcontrolpanel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-// TODO! Maybe change this 
-@SuppressWarnings("serial")
+
 public class App {
 	JFrame mainWindow=new JFrame();
-	JTextArea outputArea=new JTextArea("");
+	JTextArea outputArea=new JTextArea("asdf");
 
-	static App mc=null;
+	static App app=null;
 	/**
 	 * @param args
 	 */
@@ -22,18 +25,23 @@ public class App {
 
 	public App() throws HeadlessException {
 		super();
+
+		
+		outputArea.setFont(Font.decode("Monospaced"));
 		
 		mainWindow.setSize(1300,800);
 		mainWindow.setTitle("Custom Control Panel");
-		
 		mainWindow.setLayout(new BorderLayout());
 		mainWindow.getContentPane().add(new ControlBoxes(),BorderLayout.NORTH);
-		mainWindow.getContentPane().add(outputArea,BorderLayout.CENTER);
+		JScrollPane scroll=new JScrollPane(outputArea);
+		mainWindow.getContentPane().add(scroll,BorderLayout.CENTER);
 		
+		scroll.revalidate();
+		scroll.repaint();
 		mainWindow.setVisible(true);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		mc=this;
+
+		app=this;
 	}
 	
 	public void refresh(){

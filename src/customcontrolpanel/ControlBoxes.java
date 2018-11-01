@@ -25,7 +25,7 @@ public class ControlBoxes extends JPanel {
 		controlBox.select(true);
 		lastSelected=controlBox;
 		
-		App.mc.refresh();
+		App.app.refresh();
 		
 		return controlBox;
 	}
@@ -36,7 +36,7 @@ public class ControlBoxes extends JPanel {
 		}
 		
 		lastSelected=null;
-		App.mc.refresh();
+		App.app.refresh();
 		
 		return lastSelected;
 	}
