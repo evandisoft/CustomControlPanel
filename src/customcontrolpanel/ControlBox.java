@@ -1,5 +1,6 @@
 package customcontrolpanel;
 
+
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -18,14 +19,14 @@ public class ControlBox extends NonGreedyPanel {
     private boolean isSelected=true;
 	NameLabel nameLabel=new NameLabel();
 	String command="";
-	//StatusLabel statusLabel=new StatusLabel();
+
 	ControlBoxes controlBoxes;
 	ControlBox ref=this;
 	
 	public ControlBox(ControlBoxes controlBoxes) {
 		super();
 		this.controlBoxes=controlBoxes;
-		setValues();
+
 		LayoutManager l= new BoxLayout(this,BoxLayout.Y_AXIS);
 		this.setLayout(l);
 		this.add(nameLabel);
@@ -42,7 +43,7 @@ public class ControlBox extends NonGreedyPanel {
 	
 	public void select(boolean selected){
 		isSelected=selected;
-		//statusLabel.update(isSelected);
+		
 		if(selected){
 			if(controlBoxes.lastSelected!=null && controlBoxes.lastSelected!=ref){
 				controlBoxes.lastSelected.select(false);
@@ -52,8 +53,12 @@ public class ControlBox extends NonGreedyPanel {
 		}	
 	}
 	
-	public void setValues(){
-		JTextField name=new JTextField(nameLabel.getText());
+	public void getValues(){
+		final JTextField name=new JTextField(nameLabel.getText());
+		// TODO! Fix focus so that it is on name field if possible.
+		// 		If necessary, create a non-modal popup.
+		// Tried AncestorListener and ComponentListener in conjunction with
+		// 		requestFocus, and requestFocusInWindow
 		JTextField command=new JTextField();
 		JComponent[] components={new JLabel("Name:"),name,new JLabel("Command"),command}; 
 		JOptionPane.showConfirmDialog(App.app.mainWindow, components);
@@ -66,6 +71,7 @@ public class ControlBox extends NonGreedyPanel {
 			super("");
 			this.setMaximumSize(new Dimension(1000,40));
 			this.setPreferredSize(new Dimension(0,25));
+			this.setHorizontalAlignment(JLabel.CENTER);
 		}
 	}
 	
@@ -76,6 +82,7 @@ public class ControlBox extends NonGreedyPanel {
 
 		public void actionPerformed(ActionEvent arg0) {
 			if(command==""){
+				App.app.outputArea.append("No command entered.\n");
 				return;
 			}
 			try {
@@ -111,7 +118,10 @@ public class ControlBox extends NonGreedyPanel {
 		}
 		
 		public void actionPerformed(ActionEvent arg0) {
-			setValues();
+			getValues();
+			nameLabel.revalidate();
+			nameLabel.repaint();
+			
 		}
 	}
 }

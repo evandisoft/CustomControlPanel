@@ -30,7 +30,6 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 
 		public void actionPerformed(ActionEvent arg0) {
 			controlBoxes.add(new ControlBox(controlBoxes));
-			String[] a={"Blah","blah2"};
 		}
 	}
 	

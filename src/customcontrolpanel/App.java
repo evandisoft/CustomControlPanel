@@ -1,9 +1,7 @@
 package customcontrolpanel;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
@@ -13,7 +11,7 @@ import javax.swing.JTextArea;
 
 public class App {
 	JFrame mainWindow=new JFrame();
-	JTextArea outputArea=new JTextArea("asdf");
+	JTextArea outputArea=new JTextArea("");
 
 	static App app=null;
 	/**
@@ -26,7 +24,6 @@ public class App {
 	public App() throws HeadlessException {
 		super();
 
-		
 		outputArea.setFont(Font.decode("Monospaced"));
 		
 		mainWindow.setSize(1300,800);
