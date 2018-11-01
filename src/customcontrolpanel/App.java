@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 public class App {
 	JFrame mainWindow=new JFrame();
 	JTextArea outputArea=new JTextArea("");
-
+	
 	static App app=null;
 	/**
 	 * @param args

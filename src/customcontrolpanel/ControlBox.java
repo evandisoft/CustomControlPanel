@@ -31,7 +31,7 @@ public class ControlBox extends NonGreedyPanel {
 		this.setLayout(l);
 		this.add(nameLabel);
 		this.add(new ExecuteButton());
-		this.add(new SelectButton());
+		this.add(new DeleteButton());
 		this.add(new EditButton());
 	}
 	
@@ -59,7 +59,7 @@ public class ControlBox extends NonGreedyPanel {
 		// 		If necessary, create a non-modal popup.
 		// Tried AncestorListener and ComponentListener in conjunction with
 		// 		requestFocus, and requestFocusInWindow
-		JTextField command=new JTextField();
+		JTextField command=new JTextField(this.command);
 		JComponent[] components={new JLabel("Name:"),name,new JLabel("Command"),command}; 
 		JOptionPane.showConfirmDialog(App.app.mainWindow, components);
 		nameLabel.setText(name.getText());
@@ -102,6 +102,17 @@ public class ControlBox extends NonGreedyPanel {
 		}
 	}
 	
+	class DeleteButton extends StretchibleButton {
+		public DeleteButton(){
+			super("Delete");
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			controlBoxes.remove(ref);
+			App.app.refresh();
+		}
+	}
+	
 	class SelectButton extends StretchibleButton {
 		public SelectButton(){
 			super("Select");
@@ -121,7 +132,6 @@ public class ControlBox extends NonGreedyPanel {
 			getValues();
 			nameLabel.revalidate();
 			nameLabel.repaint();
-			
 		}
 	}
 }
