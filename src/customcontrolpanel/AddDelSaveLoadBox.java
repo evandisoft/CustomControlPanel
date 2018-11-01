@@ -3,14 +3,10 @@ package customcontrolpanel;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.swing.BoxLayout;
@@ -84,7 +80,7 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 			try {
 				pw = new PrintWriter(f);
 				for(String string:controlBoxes.serialize()){
-					prin.t(string);
+					//prin.t(string);
 					pw.write(Base64.encode(string.getBytes())+"\n");
 				}
 				pw.flush();
@@ -117,8 +113,8 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 				ControlBox cb;
 				while((line=br.readLine())!=null){
 					cb=new ControlBox(controlBoxes);
-					cb.nameLabel.setText(new String(Base64.decode(line)));
-					cb.command=new String(Base64.decode(br.readLine()));
+					cb.nameLabel.setText(new String(Base64.decode(line)).trim());
+					cb.command=(new String(Base64.decode(br.readLine())).trim());
 					controlBoxes.add(cb);
 				}
 				br.close();

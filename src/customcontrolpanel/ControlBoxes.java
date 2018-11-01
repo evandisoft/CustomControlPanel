@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class ControlBoxes extends JPanel {
