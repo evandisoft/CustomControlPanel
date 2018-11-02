@@ -8,7 +8,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 
 
-
 @SuppressWarnings("serial")
 class AddDelSaveLoadBox extends NonGreedyPanel{
 	ControlBoxes controlBoxes;

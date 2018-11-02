@@ -57,12 +57,29 @@ public class ControlBox extends NonGreedyPanel {
 	
 	public void getValues(){
 		final JTextField name=new JTextField(nameLabel.getText());
-		// TODO! Fix focus so that it is on name field if possible.
-		// 		If necessary, create a non-modal popup.
-		// Tried AncestorListener and ComponentListener in conjunction with
-		// 		requestFocus, and requestFocusInWindow
+		
 		JTextField command=new JTextField(this.command);
 		JComponent[] components={new JLabel("Name:"),name,new JLabel("Command"),command}; 
+		
+		// I don't think one can change the focus in a JOptionPane dialog programmatically without 
+		// starting a thread prior to the dialog being open and then delaying the focus request
+		// until after it will have opened. Tried a few other ways and they did not work.
+		Thread t=new Thread(){
+			public void run(){
+				try {
+					Thread.sleep(100);
+					SwingUtilities.invokeLater(new Runnable(){
+						public void run() {
+							name.requestFocusInWindow();		
+						}
+					});
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
+		
 		JOptionPane.showConfirmDialog(App.app.mainWindow, components);
 		nameLabel.setText(name.getText());
 		this.command=command.getText();
@@ -92,10 +109,6 @@ public class ControlBox extends NonGreedyPanel {
 			App.app.outputArea.append("+++++++++++++++++++++++\n");
 			App.app.outputArea.append("Running "+command+"\n");
 			App.app.outputArea.append("+++++++++++++++++++++++\n");
-			App.app.outputArea.revalidate();
-			App.app.outputArea.repaint();
-			
-			
 			
 			thread=new Thread(){
 				public void run(){
@@ -125,7 +138,7 @@ public class ControlBox extends NonGreedyPanel {
 									}
 									
 								});
-								Thread.sleep(500);
+								Thread.sleep(100);
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
