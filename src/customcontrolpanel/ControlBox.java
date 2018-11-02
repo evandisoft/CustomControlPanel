@@ -144,12 +144,17 @@ public class ControlBox extends NonGreedyPanel {
 									public void run() {
 										App.app.outputArea.append(finalbuffer);
 										// make sure to scroll down after each new input
+										//App.app.outputArea.
 										JScrollBar vsb=App.app.scroll.getVerticalScrollBar();
 										vsb.setValue(vsb.getMaximum());
 									}
 									
 								});
 								Thread.sleep(100);
+								// this is redundant but I'm not sure where best to put it
+								// so I have it in two places. Solves a particular bug
+								JScrollBar vsb=App.app.scroll.getVerticalScrollBar();
+								vsb.setValue(vsb.getMaximum());
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							} catch (InterruptedException e) {
