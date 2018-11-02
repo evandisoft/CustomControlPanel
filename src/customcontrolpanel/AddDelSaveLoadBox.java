@@ -44,7 +44,7 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
-			String result=JOptionPane.showInputDialog("New Title:");
+			String result=JOptionPane.showInputDialog("New Title:",App.programName);
 			App.programName=result;
 			App.app.refreshTitle();
 		}

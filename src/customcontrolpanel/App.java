@@ -20,7 +20,7 @@ public class App {
 	
 	static String programName="CustomControlPanel";
 	static final String version="1.2.0";
-	
+	JScrollPane scroll;
 	static App app=null;
 	/**
 	 * @param args
@@ -40,7 +40,7 @@ public class App {
 		mainWindow.setLayout(new BorderLayout());
 		final ControlBoxes cbs=new ControlBoxes();
 		//mainWindow.getContentPane().add(cbs,BorderLayout.NORTH);
-		JScrollPane scroll=new JScrollPane(outputArea);
+		scroll=new JScrollPane(outputArea);
 		AddDelSaveLoadBox adslBox=new AddDelSaveLoadBox(cbs);
 		JPanel center=new JPanel(new BorderLayout());
 		mainWindow.getContentPane().add(center,BorderLayout.CENTER);

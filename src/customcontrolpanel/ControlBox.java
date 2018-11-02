@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -142,6 +143,9 @@ public class ControlBox extends NonGreedyPanel {
 
 									public void run() {
 										App.app.outputArea.append(finalbuffer);
+										// make sure to scroll down after each new input
+										JScrollBar vsb=App.app.scroll.getVerticalScrollBar();
+										vsb.setValue(vsb.getMaximum());
 									}
 									
 								});
