@@ -19,27 +19,23 @@ import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingExcepti
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 /**
- * @author developer
+ * Panel that holds all the customizable control boxes
  *
  */
 @SuppressWarnings("serial")
 public class ControlBoxes extends JPanel {
-	AddDelSaveLoadBox adslBox;
 	ControlBox lastSelected=null;
 	
 	public ControlBoxes() {
 		super();
 		LayoutManager l= new BoxLayout(this,BoxLayout.X_AXIS);
 		this.setLayout(l);
-		adslBox=new AddDelSaveLoadBox(this);
-		this.add(adslBox);
+		
 	}
 	
 	public void clear(){
 		for(Component c:this.getComponents()){
-			if(c!=adslBox){
-				this.remove(c);
-			}
+			this.remove(c);
 		}
 		App.app.refresh();
 	}
@@ -53,11 +49,9 @@ public class ControlBoxes extends JPanel {
 		ArrayList<String> strings=new ArrayList<String>();
 		
 		for(Component c:this.getComponents()){
-			if(c!=adslBox){
-				ControlBox cb=(ControlBox)c;
-				strings.add(cb.nameLabel.getText());
-				strings.add(cb.command);
-			}
+			ControlBox cb=(ControlBox)c;
+			strings.add(cb.nameLabel.getText());
+			strings.add(cb.command);
 		}
 		
 		return strings;
@@ -106,6 +100,9 @@ public class ControlBoxes extends JPanel {
 			Point p=App.app.mainWindow.getLocation();
 			Dimension d=App.app.mainWindow.getSize();
 			
+			// store program name
+			pw.write(Base64.encode(App.programName.getBytes())+"\n");
+			
 			// store the window location data in the session file
 			pw.write(""+p.x+"\n");
 			pw.write(""+p.y+"\n");
@@ -136,6 +133,9 @@ public class ControlBoxes extends JPanel {
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			String line;
+			
+			// load program name
+			App.programName=new String(Base64.decode(br.readLine())).trim();
 			
 			// load window position from the session file
 			String xline=br.readLine();

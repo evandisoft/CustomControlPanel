@@ -17,8 +17,8 @@ public class App {
 	JTextArea outputArea=new JTextArea("");
 	File sessionFile=null;
 	
-	static final String programName="CustomControlPanel";
-	static final String version="1.1.0";
+	static String programName="CustomControlPanel";
+	static final String version="1.2.0";
 	
 	static App app=null;
 	/**
@@ -30,7 +30,7 @@ public class App {
 
 	public App(String[] args) throws HeadlessException {
 		app=this;
-		
+		com.sun.org.apache.xml.internal.security.Init.init();
 		
 		outputArea.setFont(Font.decode("Monospaced"));
 		
@@ -40,7 +40,9 @@ public class App {
 		final ControlBoxes cbs=new ControlBoxes();
 		mainWindow.getContentPane().add(cbs,BorderLayout.NORTH);
 		JScrollPane scroll=new JScrollPane(outputArea);
+		AddDelSaveLoadBox adslBox=new AddDelSaveLoadBox(cbs);
 		mainWindow.getContentPane().add(scroll,BorderLayout.CENTER);
+		mainWindow.getContentPane().add(adslBox,BorderLayout.SOUTH);
 		
 		scroll.revalidate();
 		scroll.repaint();

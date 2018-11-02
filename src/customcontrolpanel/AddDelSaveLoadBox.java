@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 
 @SuppressWarnings("serial")
@@ -16,10 +17,11 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		super();
 		this.controlBoxes=controlBoxes;
 		
-		LayoutManager l= new BoxLayout(this,BoxLayout.Y_AXIS);
+		LayoutManager l= new BoxLayout(this,BoxLayout.X_AXIS);
 		this.setLayout(l);
 		
 		this.add(new AddButton());
+		this.add(new TitleButton());
 		this.add(new ClearButton());
 		this.add(new SaveButton());
 		this.add(new LoadButton());
@@ -32,6 +34,18 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 
 		public void actionPerformed(ActionEvent arg0) {
 			controlBoxes.add(new ControlBox(controlBoxes));
+		}
+	}
+	
+	class TitleButton extends StretchibleButton {
+		public TitleButton(){
+			super("Title");
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			String result=JOptionPane.showInputDialog("New Title:");
+			App.programName=result;
+			App.app.refreshTitle();
 		}
 	}
 	
