@@ -5,10 +5,13 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Point;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -16,7 +19,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+
+import java.util.Base64;
 
 /**
  * Panel that holds all the customizable control boxes
@@ -94,6 +98,7 @@ public class ControlBoxes extends JPanel {
 				e.printStackTrace();
 			}
 		}
+		Base64.Encoder ase64=Base64.getEncoder();
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(f);
@@ -101,8 +106,8 @@ public class ControlBoxes extends JPanel {
 			Dimension d=App.app.mainWindow.getSize();
 			
 			// store program name
-			pw.write(Base64.encode(App.programName.getBytes())+"\n");
-			
+			pw.write(ase64.encodeToString(App.programName.getBytes())+"\n");
+
 			// store the window location data in the session file
 			pw.write(""+p.x+"\n");
 			pw.write(""+p.y+"\n");
@@ -113,13 +118,15 @@ public class ControlBoxes extends JPanel {
 			// store all the control boxes data in the session file
 			// encode as base64 to ensure newlines don't mess with the format
 			for(String string:this.serialize()){
-				pw.write(Base64.encode(string.getBytes())+"\n");
+				pw.write(new String(ase64.encodeToString(string.getBytes()))+"\n");
 			}
 			pw.flush();
 			pw.close();
 			App.app.sessionFile=f;
 			App.app.refreshTitle();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e){
 			e.printStackTrace();
 		}
 	}
@@ -131,12 +138,13 @@ public class ControlBoxes extends JPanel {
 	 */
 	public void load(File f){
 		this.clear();
+		Base64.Decoder ase64=Base64.getDecoder();
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			String line;
 			
 			// load program name
-			App.programName=new String(Base64.decode(br.readLine())).trim();
+			App.programName=new String(ase64.decode(br.readLine())).trim();
 			
 			// load window position from the session file
 			String xline=br.readLine();
@@ -158,8 +166,11 @@ public class ControlBoxes extends JPanel {
 			ControlBox cb;
 			while((line=br.readLine())!=null){
 				cb=new ControlBox(this);
-				cb.nameLabel.setText(new String(Base64.decode(line)).trim());
-				cb.command=(new String(Base64.decode(br.readLine())).trim());
+				cb.nameLabel.setText(new String(ase64.decode(line)).trim());
+				//prin.t(new String(ase64.decode(line)).trim());
+				line=br.readLine();
+				cb.command=new String(ase64.decode(line)).trim();
+				//prin.t(new String((line)).trim());
 				this.add(cb);
 			}
 			br.close();
@@ -167,8 +178,6 @@ public class ControlBoxes extends JPanel {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Base64DecodingException e) {
 			e.printStackTrace();
 		}
 	}
