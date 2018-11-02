@@ -1,6 +1,4 @@
 ability to terminate running command
-allow user to change the title, and save it in session
-move (add/clear/save/load) buttons to the bottom.
 add button to remove all control boxes
 use more sophisticated format for saving sessions
 refactor structure of program to be more simple
