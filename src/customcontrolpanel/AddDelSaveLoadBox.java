@@ -17,7 +17,7 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		super();
 		this.controlBoxes=controlBoxes;
 		
-		LayoutManager l= new BoxLayout(this,BoxLayout.X_AXIS);
+		LayoutManager l= new BoxLayout(this,BoxLayout.PAGE_AXIS);
 		this.setLayout(l);
 		
 		this.add(new AddButton());
