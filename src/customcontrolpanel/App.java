@@ -63,13 +63,13 @@ public class App {
 		}
 		
 		// autosave the current session on close
-		mainWindow.addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent e) {
-				if(sessionFile!=null){
-					cbs.save(sessionFile);
-				}
-			}
-		});
+//		mainWindow.addWindowListener(new WindowAdapter(){
+//			public void windowClosing(WindowEvent e) {
+//				if(sessionFile!=null){
+//					cbs.save(sessionFile);
+//				}
+//			}
+//		});
 	}
 	
 	public void refresh(){

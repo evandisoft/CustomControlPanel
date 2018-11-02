@@ -24,6 +24,7 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		this.add(new TitleButton());
 		this.add(new ClearButton());
 		this.add(new SaveButton());
+		this.add(new SaveAsButton());
 		this.add(new LoadButton());
 	}
 	
@@ -51,7 +52,7 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 	
 	class ClearButton extends StretchibleButton {
 		public ClearButton(){
-			super("Clear");
+			super("Clear O");
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -59,13 +60,26 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		}
 	}
 	
+	class SaveButton extends StretchibleButton {
+		public SaveButton(){
+			super("Save");
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			if(App.app.sessionFile!=null){
+				controlBoxes.save(App.app.sessionFile);
+			}
+			//App.app.mainWindow.dispose();
+		}
+	}
+	
 	/**
 	 * Open a save dialog for the user and then save the session in the chosen file.
 	 *
 	 */
-	class SaveButton extends StretchibleButton {
-		public SaveButton(){
-			super("Save");
+	class SaveAsButton extends StretchibleButton {
+		public SaveAsButton(){
+			super("SaveAs");
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -81,6 +95,8 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 			controlBoxes.save(f);			
 		}
 	}
+	
+	
 	
 	// Open a load file dialog for the user and then load the chosen file in as the current session.
 	class LoadButton extends StretchibleButton {
@@ -101,4 +117,6 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 			controlBoxes.load(f);
 		}
 	}
+	
+	
 }

@@ -5,6 +5,3 @@ The user can also save the "session", which amounts to the current button config
 To load a session from the command-line on startup:
 java --jar CustomControlPanel.jar session-filename
 
-If a session is loaded, it will autosave to the current session-file
-on close
-
