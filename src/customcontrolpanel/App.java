@@ -15,6 +15,9 @@ public class App {
 	JTextArea outputArea=new JTextArea("");
 	File sessionFile=null;
 	
+	static final String programName="CustomControlPanel";
+	static final String version="1.0.0";
+	
 	static App app=null;
 	/**
 	 * @param args
@@ -25,6 +28,8 @@ public class App {
 
 	public App(String[] args) throws HeadlessException {
 		app=this;
+		
+		
 		
 		outputArea.setFont(Font.decode("Monospaced"));
 		
@@ -45,8 +50,6 @@ public class App {
 			sessionFile=new File(args[0]);
 			cbs.load(sessionFile);
 		}
-
-		
 	}
 	
 	public void refresh(){
@@ -56,10 +59,10 @@ public class App {
 	
 	public void refreshTitle(){
 		if(App.app.sessionFile!=null){
-			App.app.mainWindow.setTitle("Custom Control Panel ~ Session: "+App.app.sessionFile.getAbsolutePath());
+			App.app.mainWindow.setTitle(App.programName+" "+App.version+" ~ Session: "+App.app.sessionFile.getAbsolutePath());
 		}
 		else{
-			App.app.mainWindow.setTitle("Custom Control Panel");
+			App.app.mainWindow.setTitle(App.programName+" "+App.version);
 		}
 	}
 }

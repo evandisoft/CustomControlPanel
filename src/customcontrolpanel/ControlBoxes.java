@@ -1,7 +1,9 @@
 package customcontrolpanel;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,6 +89,13 @@ public class ControlBoxes extends JPanel {
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(f);
+			Point p=App.app.mainWindow.getLocation();
+			Dimension d=App.app.mainWindow.getSize();
+			pw.write(""+p.x+"\n");
+			pw.write(""+p.y+"\n");
+			pw.write(""+d.width+"\n");
+			pw.write(""+d.height+"\n");
+			
 			for(String string:this.serialize()){
 				//prin.t(string);
 				pw.write(Base64.encode(string.getBytes())+"\n");
@@ -104,6 +113,20 @@ public class ControlBoxes extends JPanel {
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			String line;
+			String xline=br.readLine();
+			String yline=br.readLine();
+			String widthline=br.readLine();
+			String heightline=br.readLine();
+			App.app.mainWindow.setLocation(
+					Integer.parseInt(xline), 
+					Integer.parseInt(yline)
+					);
+			
+			App.app.mainWindow.setSize(new Dimension(
+					Integer.parseInt(widthline),
+					Integer.parseInt(heightline)
+					));
+			
 			ControlBox cb;
 			while((line=br.readLine())!=null){
 				cb=new ControlBox(this);

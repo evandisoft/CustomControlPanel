@@ -1,0 +1,11 @@
+asynchronous execution/output
+ability to terminate running command
+move (add/clear/save/load) buttons to the bottom.
+add button to remove all control boxes
+use more sophisticated format for saving sessions
+improved comments
+refactor structure of program to be more simple
+different outputarea for each control box
+simple terminal functionality
+tabs for multiple subsessions
+better error handling

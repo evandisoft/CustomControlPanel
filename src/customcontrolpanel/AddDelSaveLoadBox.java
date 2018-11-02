@@ -2,18 +2,11 @@ package customcontrolpanel;
 
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 
 @SuppressWarnings("serial")
