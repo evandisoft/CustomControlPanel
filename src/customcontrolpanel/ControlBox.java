@@ -90,7 +90,9 @@ public class ControlBox extends NonGreedyPanel {
 				process.waitFor();
 				BufferedReader r=new BufferedReader(new InputStreamReader(process.getInputStream()));
 				String line;
-				// TODO! Make this asynchronous
+				// TODO Maybe make this asynchronous so that it can be
+				// cancelled. Probably want an outputarea for each controlbox
+				// too, so we can run multiple processes at the same time.
 				while((line=r.readLine())!=null){
 					App.app.outputArea.append(line+"\n");
 				}
