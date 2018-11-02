@@ -112,7 +112,7 @@ public class ControlBox extends NonGreedyPanel {
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
-			if(command==""){
+			if(command.equals("")){
 				App.app.outputArea.append("No command entered.\n");
 				return;
 			}
