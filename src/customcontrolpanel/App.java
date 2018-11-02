@@ -79,7 +79,7 @@ public class App {
 	
 	public void refreshTitle(){
 		if(App.app.sessionFile!=null){
-			App.app.mainWindow.setTitle(App.programName+" "+App.version+" ~ Session: "+App.app.sessionFile.getAbsolutePath());
+			App.app.mainWindow.setTitle(App.programName+" - "+App.app.sessionFile.getName());
 		}
 		else{
 			App.app.mainWindow.setTitle(App.programName+" "+App.version);

@@ -117,6 +117,7 @@ public class ControlBoxes extends JPanel {
 			}
 			pw.flush();
 			pw.close();
+			App.app.sessionFile=f;
 			App.app.refreshTitle();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
