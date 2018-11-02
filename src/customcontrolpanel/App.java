@@ -3,6 +3,9 @@ package customcontrolpanel;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -16,7 +19,7 @@ public class App {
 	File sessionFile=null;
 	
 	static final String programName="CustomControlPanel";
-	static final String version="1.0.0";
+	static final String version="1.1.0";
 	
 	static App app=null;
 	/**
@@ -30,13 +33,12 @@ public class App {
 		app=this;
 		
 		
-		
 		outputArea.setFont(Font.decode("Monospaced"));
 		
 		mainWindow.setSize(1300,800);
 		mainWindow.setTitle("Custom Control Panel");
 		mainWindow.setLayout(new BorderLayout());
-		ControlBoxes cbs=new ControlBoxes();
+		final ControlBoxes cbs=new ControlBoxes();
 		mainWindow.getContentPane().add(cbs,BorderLayout.NORTH);
 		JScrollPane scroll=new JScrollPane(outputArea);
 		mainWindow.getContentPane().add(scroll,BorderLayout.CENTER);
@@ -48,8 +50,20 @@ public class App {
 		
 		if(args.length>0){
 			sessionFile=new File(args[0]);
+			if(!sessionFile.exists()){
+				cbs.save(sessionFile);
+			}
 			cbs.load(sessionFile);
 		}
+		
+
+		mainWindow.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e) {
+				if(sessionFile!=null){
+					cbs.save(sessionFile);
+				}
+			}
+		});
 	}
 	
 	public void refresh(){

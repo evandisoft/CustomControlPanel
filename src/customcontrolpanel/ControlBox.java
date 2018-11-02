@@ -6,13 +6,16 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.CharBuffer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class ControlBox extends NonGreedyPanel {
@@ -74,6 +77,8 @@ public class ControlBox extends NonGreedyPanel {
 		}
 	}
 	
+	Thread thread;
+	Process process;
 	class ExecuteButton extends StretchibleButton {
 		public ExecuteButton(){
 			super("Execute");
@@ -84,28 +89,58 @@ public class ControlBox extends NonGreedyPanel {
 				App.app.outputArea.append("No command entered.\n");
 				return;
 			}
-			try {
-				App.app.outputArea.append("+++++++++++++++++++++++\n");
-				App.app.outputArea.append("Running "+command+"\n");
-				App.app.outputArea.append("+++++++++++++++++++++++\n");
-				
-				Process process=Runtime.getRuntime().exec(command);
-				process.waitFor();
-				
-				BufferedReader r=new BufferedReader(new InputStreamReader(process.getInputStream()));
-				String line;
-				// TODO Maybe make this asynchronous so that it can be
-				// cancelled. Probably want an outputarea for each controlbox
-				// too, so we can run multiple processes at the same time.
-				
-				while((line=r.readLine())!=null){
-					App.app.outputArea.append(line+"\n");
+			App.app.outputArea.append("+++++++++++++++++++++++\n");
+			App.app.outputArea.append("Running "+command+"\n");
+			App.app.outputArea.append("+++++++++++++++++++++++\n");
+			App.app.outputArea.revalidate();
+			App.app.outputArea.repaint();
+			
+			
+			
+			thread=new Thread(){
+				public void run(){
+					try {
+						process=Runtime.getRuntime().exec(command);
+						
+						InputStream inputStream=process.getInputStream();
+						
+						while(process.isAlive() || inputStream.available()>0){
+							String chunk;
+							// TODO Maybe make this asynchronous so that it can be
+							// cancelled. Probably want an outputarea for each controlbox
+							// too, so we can run multiple processes at the same time.
+							
+							try {
+								StringBuffer sb=new StringBuffer();
+								while(inputStream.available()>0){
+									sb.append((char)inputStream.read());
+								}
+								
+								final String finalbuffer=new String(sb);
+								
+								SwingUtilities.invokeLater(new Runnable(){
+
+									public void run() {
+										App.app.outputArea.append(finalbuffer);
+									}
+									
+								});
+								Thread.sleep(500);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			};
+			thread.start();
 		}
 	}
 	

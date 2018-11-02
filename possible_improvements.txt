@@ -1,7 +1,7 @@
-asynchronous execution/output
 ability to terminate running command
 move (add/clear/save/load) buttons to the bottom.
 add button to remove all control boxes
+add button to save without prompt
 use more sophisticated format for saving sessions
 improved comments
 refactor structure of program to be more simple
