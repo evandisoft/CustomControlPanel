@@ -1,5 +1,4 @@
 ability to terminate running command
-add button to remove all control boxes
 use more sophisticated format for saving sessions
 refactor structure of program to be more simple
 different outputarea for each control box

@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -38,11 +39,14 @@ public class App {
 		mainWindow.setTitle("Custom Control Panel");
 		mainWindow.setLayout(new BorderLayout());
 		final ControlBoxes cbs=new ControlBoxes();
-		mainWindow.getContentPane().add(cbs,BorderLayout.NORTH);
+		//mainWindow.getContentPane().add(cbs,BorderLayout.NORTH);
 		JScrollPane scroll=new JScrollPane(outputArea);
 		AddDelSaveLoadBox adslBox=new AddDelSaveLoadBox(cbs);
-		mainWindow.getContentPane().add(scroll,BorderLayout.CENTER);
-		mainWindow.getContentPane().add(adslBox,BorderLayout.SOUTH);
+		JPanel center=new JPanel(new BorderLayout());
+		mainWindow.getContentPane().add(center,BorderLayout.CENTER);
+		center.add(scroll,BorderLayout.CENTER);
+		center.add(cbs,BorderLayout.NORTH);
+		mainWindow.getContentPane().add(adslBox,BorderLayout.WEST);
 		outputArea.setEditable(false);
 		
 		scroll.revalidate();
