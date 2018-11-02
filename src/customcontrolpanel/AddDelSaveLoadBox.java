@@ -90,6 +90,9 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 
 		public void actionPerformed(ActionEvent arg0) {
 			JFileChooser fc=new JFileChooser();
+			if(App.app.sessionFile!=null){
+				fc.setSelectedFile(App.app.sessionFile);
+			}
 			int retval=fc.showOpenDialog(App.app.mainWindow);
 			if(retval!=JFileChooser.APPROVE_OPTION){
 				return;
