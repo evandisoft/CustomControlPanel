@@ -42,7 +42,8 @@ public class App {
 		JScrollPane scroll=new JScrollPane(outputArea);
 		AddDelSaveLoadBox adslBox=new AddDelSaveLoadBox(cbs);
 		mainWindow.getContentPane().add(scroll,BorderLayout.CENTER);
-		mainWindow.getContentPane().add(adslBox,BorderLayout.WEST);
+		mainWindow.getContentPane().add(adslBox,BorderLayout.SOUTH);
+		outputArea.setEditable(false);
 		
 		scroll.revalidate();
 		scroll.repaint();

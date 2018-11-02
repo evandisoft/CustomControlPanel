@@ -101,7 +101,7 @@ public class ControlBox extends NonGreedyPanel {
 	 */
 	class NameLabel extends JLabel {
 		public NameLabel(){
-			super("");
+			super("No Action");
 			this.setMaximumSize(new Dimension(1000,40));
 			this.setPreferredSize(new Dimension(0,25));
 			this.setHorizontalAlignment(JLabel.CENTER);
