@@ -55,7 +55,7 @@ public class App {
 			cbs.load(sessionFile);
 		}
 		
-
+		// autosave the current session on close
 		mainWindow.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e) {
 				if(sessionFile!=null){

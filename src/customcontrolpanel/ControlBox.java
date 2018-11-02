@@ -19,7 +19,9 @@ import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class ControlBox extends NonGreedyPanel {
+	//deprecated
     private boolean isSelected=true;
+    
 	NameLabel nameLabel=new NameLabel();
 	String command="";
 
@@ -38,11 +40,12 @@ public class ControlBox extends NonGreedyPanel {
 		this.add(new EditButton());
 	}
 	
-	
+	// deprecated
 	public boolean getIsSelected(){
 		return isSelected;
 	}
 	
+	// deprecated
 	public void select(boolean selected){
 		isSelected=selected;
 		
@@ -55,6 +58,11 @@ public class ControlBox extends NonGreedyPanel {
 		}	
 	}
 	
+	
+	/**
+	 * Create a popup that asks the user for a name and command for this controlbox.
+	 * Then save that information in this controlbox.
+	 */
 	public void getValues(){
 		final JTextField name=new JTextField(nameLabel.getText());
 		
@@ -85,6 +93,12 @@ public class ControlBox extends NonGreedyPanel {
 		this.command=command.getText();
 	}
 	
+	
+	/**
+	 * A type of JLabel that allowed stretching by setting large maximum size.
+	 * Sets preferred width to 0 to prevent it from making parent wider.
+	 * Sets preferred height to 25 to ensure that it takes as much space as the buttons.
+	 */
 	class NameLabel extends JLabel {
 		public NameLabel(){
 			super("");
@@ -110,6 +124,7 @@ public class ControlBox extends NonGreedyPanel {
 			App.app.outputArea.append("Running "+command+"\n");
 			App.app.outputArea.append("+++++++++++++++++++++++\n");
 			
+			// Asynchronously start a process, and pass its input to the app's outputArea.
 			thread=new Thread(){
 				public void run(){
 					try {
@@ -118,10 +133,6 @@ public class ControlBox extends NonGreedyPanel {
 						InputStream inputStream=process.getInputStream();
 						
 						while(process.isAlive() || inputStream.available()>0){
-							String chunk;
-							// TODO Maybe make this asynchronous so that it can be
-							// cancelled. Probably want an outputarea for each controlbox
-							// too, so we can run multiple processes at the same time.
 							
 							try {
 								StringBuffer sb=new StringBuffer();
@@ -140,15 +151,12 @@ public class ControlBox extends NonGreedyPanel {
 								});
 								Thread.sleep(100);
 							} catch (IOException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -168,6 +176,7 @@ public class ControlBox extends NonGreedyPanel {
 		}
 	}
 	
+	// deprecated
 	class SelectButton extends StretchibleButton {
 		public SelectButton(){
 			super("Select");
@@ -178,6 +187,7 @@ public class ControlBox extends NonGreedyPanel {
 		}
 	}
 	
+	// make a popup appear that allows the user to edit this controlbox
 	class EditButton extends StretchibleButton {
 		public EditButton(){
 			super("Edit");

@@ -18,6 +18,10 @@ import javax.swing.JPanel;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
+/**
+ * @author developer
+ *
+ */
 @SuppressWarnings("serial")
 public class ControlBoxes extends JPanel {
 	AddDelSaveLoadBox adslBox;
@@ -40,6 +44,11 @@ public class ControlBoxes extends JPanel {
 		App.app.refresh();
 	}
 	
+	/**
+	 * Serialize the control boxes into an array of strings that alternates between name and command.
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> serialize(){
 		ArrayList<String> strings=new ArrayList<String>();
 		
@@ -77,6 +86,11 @@ public class ControlBoxes extends JPanel {
 		return lastSelected;
 	}
 	
+	/**
+	 * Save the current session into the given file, f.
+	 * 
+	 * @param f
+	 */
 	public void save(File f){
 		
 		if(!f.exists()){
@@ -91,13 +105,17 @@ public class ControlBoxes extends JPanel {
 			pw = new PrintWriter(f);
 			Point p=App.app.mainWindow.getLocation();
 			Dimension d=App.app.mainWindow.getSize();
+			
+			// store the window location data in the session file
 			pw.write(""+p.x+"\n");
 			pw.write(""+p.y+"\n");
+			// store the window size data in the session file
 			pw.write(""+d.width+"\n");
 			pw.write(""+d.height+"\n");
 			
+			// store all the control boxes data in the session file
+			// encode as base64 to ensure newlines don't mess with the format
 			for(String string:this.serialize()){
-				//prin.t(string);
 				pw.write(Base64.encode(string.getBytes())+"\n");
 			}
 			pw.flush();
@@ -108,25 +126,34 @@ public class ControlBoxes extends JPanel {
 		}
 	}
 	
+	/**
+	 * Load the session data from the file, f.
+	 * 
+	 * @param f
+	 */
 	public void load(File f){
 		this.clear();
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(f));
 			String line;
+			
+			// load window position from the session file
 			String xline=br.readLine();
 			String yline=br.readLine();
-			String widthline=br.readLine();
-			String heightline=br.readLine();
 			App.app.mainWindow.setLocation(
 					Integer.parseInt(xline), 
 					Integer.parseInt(yline)
 					);
 			
+			// load window size from the session file
+			String widthline=br.readLine();
+			String heightline=br.readLine();
 			App.app.mainWindow.setSize(new Dimension(
 					Integer.parseInt(widthline),
 					Integer.parseInt(heightline)
 					));
 			
+			// load the control box data from the rest of the session file
 			ControlBox cb;
 			while((line=br.readLine())!=null){
 				cb=new ControlBox(this);

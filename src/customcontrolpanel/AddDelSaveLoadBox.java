@@ -45,6 +45,10 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		}
 	}
 	
+	/**
+	 * Open a save dialog for the user and then save the session in the chosen file.
+	 *
+	 */
 	class SaveButton extends StretchibleButton {
 		public SaveButton(){
 			super("Save");
@@ -64,6 +68,7 @@ class AddDelSaveLoadBox extends NonGreedyPanel{
 		}
 	}
 	
+	// Open a load file dialog for the user and then load the chosen file in as the current session.
 	class LoadButton extends StretchibleButton {
 		public LoadButton(){
 			super("Load");
